@@ -3,7 +3,7 @@
 default_branch=foobar
 
 git remote set-branches origin $default_branch
-git fetch origin $default_branch
+git fetch --unshallow origin $default_branch
 
 if [[ ! -z "$TRAVIS_TAG" ]]
 then
