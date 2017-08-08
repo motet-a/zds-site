@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git fetch dev
+git fetch origin dev
 
 if [[ ! -z "$TRAVIS_TAG" ]]
 then
