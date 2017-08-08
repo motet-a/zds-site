@@ -52,6 +52,7 @@ cache:
   apt: true
   pip: true
   directories:
+    - $HOME/.cabal
     - $HOME/.fonts
     - $HOME/.pandoc
     - $HOME/.texlive
