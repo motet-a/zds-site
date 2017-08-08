@@ -1,5 +1,6 @@
 #!/bin/bash
 
+git remote set-branches origin dev
 git fetch origin dev
 
 if [[ ! -z "$TRAVIS_TAG" ]]
