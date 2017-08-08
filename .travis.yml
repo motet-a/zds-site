@@ -81,7 +81,7 @@ install:
   - |
     if [[ "$ZDS_TEST_JOB" == "front" ]]; then
       npm install
-    elif [[ "$ZDS_TEST_JOB" == "zds.tutorialv2" ]]; then
+    elif [[ "$ZDS_TEST_JOB" == "zds.tutorialv2" ]] && [[ "$ZDS_TEST_JOB" != "none" ]]; then
       mkdir -p $HOME/bin \
       && ./scripts/install_texlive.sh \
       && ./scripts/install_resources.sh \
@@ -90,7 +90,7 @@ install:
     fi
 
   - |
-    if [[ "$ZDS_TEST_JOB" != "front" ]]; then
+    if [[ "$ZDS_TEST_JOB" != "front" ]] && [[ "$ZDS_TEST_JOB" != "none" ]]; then
       pip install -q -rrequirements.txt -rrequirements-dev.txt MySQL-python ujson
     fi
 
