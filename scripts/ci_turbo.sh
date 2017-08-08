@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git fetch --unshallow
+
 if [[ ! -z "$TRAVIS_TAG" ]]
 then
     exit 0
