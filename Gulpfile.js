@@ -5,7 +5,8 @@ const del = require('del');
 const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
 const postcss = require('gulp-postcss');
-const sass = require('gulp-sass');
+const postcssImport = require("postcss-import");
+const stylus = require('gulp-stylus');
 const sourcemaps = require('gulp-sourcemaps');
 const spritesmith = require('gulp.spritesmith');
 const uglify = require('gulp-uglify');
@@ -16,17 +17,12 @@ const cssnano = require('cssnano');
 
 // PostCSS plugins used
 const postcssPlugins = [
+    postcssImport(),
     autoprefixer({ browsers: ['last 2 versions', '> 1%', 'ie >= 9'] }),
     cssnano(),
 ];
 
-const customSass = () => sass({
-    sourceMapContents: true,
-    includePaths: [
-        path.join(__dirname, 'node_modules'),
-        path.join(__dirname, 'dist', 'scss'),
-    ],
-});
+const customStylus = () => stylus();
 
 // Deletes the generated files
 gulp.task('clean', () => del([
@@ -92,19 +88,19 @@ gulp.task('js', () =>
 
 // Compiles the SCSS files to CSS
 gulp.task('css', ['css:sprite'], () =>
-    gulp.src('assets/scss/main.scss')
+    gulp.src('assets/styl/main.styl')
         .pipe(sourcemaps.init())
-        .pipe(customSass())
+        .pipe(customStylus())
         .pipe(postcss(postcssPlugins))
-        .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../../assets/scss/' }))
+        .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../../assets/styl/' }))
         .pipe(gulp.dest('dist/css/')));
 
 // Generates a sprite
 gulp.task('css:sprite', () =>
     gulp.src('assets/images/sprite/*.png')
         .pipe(spritesmith({
-            cssTemplate: 'assets/scss/_sprite.scss.hbs',
-            cssName: 'scss/_sprite.scss',
+            cssTemplate: 'assets/styl/sprite.styl.hbs',
+            cssName: 'styl/sprite.styl',
             imgName: 'images/sprite.png',
             retinaImgName: 'images/sprite@2x.png',
             retinaSrcFilter: 'assets/images/sprite/*@2x.png',
@@ -121,7 +117,7 @@ gulp.task('images', ['css:sprite'], () =>
 gulp.task('watch-runner', () => {
     gulp.watch('assets/js/*.js', ['js']);
     gulp.watch(['assets/{images,smileys}/**/*', '!assets/images/sprite*.png'], ['images']);
-    gulp.watch(['assets/scss/**/*.scss', '!assets/scss/_sprite.scss'], ['css']);
+    gulp.watch(['assets/styl/**/*.styl'], ['css']);
 
     gulp.watch('dist/**/*', file =>
          livereload.changed(
@@ -160,7 +156,7 @@ gulp.task('watch', cb => {
 gulp.task('errors', () =>
     gulp.src('errors/scss/main.scss')
         .pipe(sourcemaps.init())
-        .pipe(customSass())
+        .pipe(customStylus())
         .pipe(postcss(postcssPlugins))
         .pipe(sourcemaps.write('.', { includeContent: true, sourceRoot: '../scss/' }))
         .pipe(gulp.dest('errors/css/')));

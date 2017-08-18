@@ -1,0 +1,77 @@
+
+@require "variables"
+
+.page-footer
+  background $blue
+  color rgba(white, 0.8)
+  overflow hidden
+  border-top solid $thick-line-width $orange
+
+  a
+    color inherit
+    &:hover
+      color white
+
+  ul
+    list-style none
+    display flex
+    margin 0
+
+  .copyright
+    flex 1
+    flex-basis 0
+    min-width 0
+
+    margin 0
+    @media screen and (max-width: $medium)
+      text-align center
+      flex-basis auto
+    ellipsis()
+
+  .social
+    display flex
+    @media screen and (max-width: $medium)
+      justify-content center
+    a
+      opacity 0.7
+      font-size 0
+      margin 0.5rem 0.75rem
+      &:hover
+        opacity 1
+    .facebook
+      icon($facebook-light)
+    .twitter
+      icon($twitter-light)
+    .google-plus
+      icon($google-plus-light)
+
+  .links
+    flex-grow 1
+    flex-shrink 0
+    flex-basis 0
+    justify-content flex-end
+    @media screen and (max-width: $medium)
+      flex-basis auto
+      flex-wrap wrap
+      justify-content center
+      flex-shrink 1
+    a
+      margin 1rem
+      ellipsis()
+
+  .wrapper
+    display flex
+    align-items center
+
+    &>*
+      padding 0.5rem
+
+    .copyright
+      padding-left 1rem
+      padding-right 1rem
+
+    @media screen and (max-width: $medium)
+      flex-direction column
+      align-items stretch
+      ul
+        border-top $thin-line-width solid lighten($blue, 5%)

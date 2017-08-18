@@ -35,8 +35,8 @@
             {% endblocktrans %}
         </p>
 
-        <section class="content-wrapper">
-            <div class="content-col-2">
+        <section class="content-wrapper row">
+            <div class="column">
                 <h2>{% trans "Connexion classique" %}</h2>
                 {% crispy form %}
                 <p>
@@ -50,7 +50,7 @@
                     </a>
                 </p>
             </div>
-            <div class="content-col-2">
+            <div class="column">
                 <h2>{% trans "Connexion via réseaux sociaux" %}</h2>
 
                 <a href="{% url "social:begin" "facebook" %}" class="btn ico-after facebook light btn-facebook btn-holder">

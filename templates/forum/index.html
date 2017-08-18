@@ -27,20 +27,20 @@
 
 
 {% block content %}
-    <p class="content-wrapper">
+    <p>
         {% blocktrans %}
-        Les forums vous permettent de venir poser vos questions aux autres 
+        Les forums vous permettent de venir poser vos questions aux autres
         membres mais aussi de s'entrainer ou <strong>tout simplement de discuter</strong>.
-        Cela fonctionne également dans l'autre sens : vous pouvez ici aider les autres et 
+        Cela fonctionne également dans l'autre sens : vous pouvez ici aider les autres et
         proposer des exercices au reste de la communauté.
         {% endblocktrans %}
     </p>
 
-    <div class="content-wrapper topic-list topic-list-small forum-list navigable-list" itemscope itemtype="http://schema.org/ItemList">
+    <div class="topic-list topic-list-small forum-list navigable-list content-wrapper" itemscope itemtype="http://schema.org/ItemList">
         <meta itemprop="itemListOrder" content="Unordered">
 
         {% for category in categories %}
-            <h2 class="group-title content-wrapper">
+            <h2 class="group-title">
                 {{ category.title }}
             </h2>
             {% include "forum/includes/forums.part.html" with forums=category.forums %}

@@ -84,13 +84,14 @@
                 </section>
             {% endif %}
             {% if app.display_search_bar %}
-                 <section class="search-box">
+                <section class="search-box">
                     {% crispy search_form %}
                 </section>
             {% endif %}
         </div>
     </section>
 
+    <section class="flexpage-body">
     <div class="flexpage-wrapper">
         <section class="home-pinned-content">
             <h2 class="home-heading heading-white ico-after ico-news" itemprop="name">
@@ -185,4 +186,5 @@
             </section>
         </div>
     </div>
+    </section>
 {% endblock %}

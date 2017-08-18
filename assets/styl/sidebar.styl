@@ -1,0 +1,213 @@
+
+@require "variables"
+
+sidebar-link()
+  display block
+  height 2rem
+  line-height 2rem
+  padding 0 1rem
+  padding-left 3rem
+  ellipsis()
+
+  &:hover
+    text-decoration none
+
+  &.edit:before
+    icon($edit-blue)
+
+  &.gear:before
+    icon($gear-blue)
+
+  &.cite:before
+    icon($cite-blue)
+
+  &.star:before
+    icon($star-blue)
+
+  &.email:before
+    icon($email-blue)
+
+  &.facebook:before
+    icon($facebook-blue)
+
+  &.twitter:before
+    icon($twitter-blue)
+
+  &.google-plus:before
+    icon($google-plus-blue)
+
+  &.diaspora:before
+    icon($diaspora-blue)
+
+  &.offline:before, &.arrow-right:before
+    icon($arrow-right)
+
+  &.arrow-left:before
+    icon($arrow-left)
+
+  &.more:before
+    icon($more-blue)
+
+  &.history:before
+    icon($history-blue)
+
+  &.alert:before
+    icon($alert-blue)
+
+  &.cross.red:before
+    icon($cross-red)
+
+  &.cross.blue:before
+    icon($cross-blue)
+
+  &.download:before
+    icon($download-blue)
+
+  &.tick:before
+    icon($tick-green)
+
+  &.lock:before
+    icon($lock-blue)
+
+  &.pin:before
+    icon($pin-blue)
+
+  &.rss:before
+    icon($rss-blue)
+
+  &.beta:before
+    icon($beta-blue)
+
+  &.online:before
+    icon($view-blue)
+
+  &.ico-after
+    padding-left 1.25rem
+    &:before
+      content ''
+      display inline-block !important
+      margin-right 0.5rem
+      margin-top 0.5rem
+      vertical-align top
+
+  &[data-num]:after
+    content attr(data-num) '.'
+    position absolute
+    left 0.5rem
+    width 1.5rem
+    text-align right
+    color #424242
+
+
+
+.sidebar
+  flex-basis 20rem
+  flex-grow 0
+  flex-shrink 0
+  min-width 0
+
+  background $color-sidebar-background
+  padding 1.5rem 0
+
+  @media screen and (max-width: $medium)
+    display none
+
+  button
+    background none
+    border none
+    cursor pointer
+    color $turquoise
+    text-align left
+    width 100%
+
+  a, button
+    sidebar-link()
+
+  h3
+    underlined-heading()
+    font-size 1.2rem
+    display block
+    padding 0 1.25rem
+    margin-top 2rem
+    margin-bottom 0.5rem
+
+  ul + h4
+    margin-top 1rem
+
+  h4
+    heading-base()
+    padding 0 1.25rem
+    margin 0
+    color #666
+    font-size 1rem
+
+  ul, ol
+    list-style none
+    padding 0
+    margin 0
+
+  li
+    height 2rem
+    line-height 2rem
+    position relative // For `.count` elements
+    &:not(.inactive):hover
+      background white
+      .last-answer
+        display flex
+    &>span:not(.last-answer)
+      padding-left 3rem
+
+  .count
+    position absolute
+    right 1rem
+    top 0
+    bottom 0
+    margin auto 0
+
+    background #aaa
+    color white
+    min-width 2.5rem
+    height 1.4rem
+    padding 0 0.25rem
+    display flex
+    align-items center
+    justify-content center
+
+  .last-answer
+    display none
+    card-shadow()
+    background white
+    position absolute
+    width 20rem
+    right -@width
+    top 50%
+    transform translate(0, -50%)
+    z-index 1
+    padding 0.25rem
+    &>*
+      margin 0.25rem
+
+  // TODO: The HTML markup is pretty messy. I think it could be
+  // simplified.
+  .stop-follow
+    overflow initial
+    position absolute
+    font-size 0
+    width 1.5rem
+    left 1rem
+    top 0
+    padding 0 0.25rem !important
+    opacity 0
+    background white
+    &:hover
+      opacity 1
+      &:after
+        content: attr(data-title)
+        position absolute
+        bottom 2.25rem
+        font-size 1rem
+        background white
+        z-index 1
+        padding 0 0.5rem
+        card-shadow()
+        color black

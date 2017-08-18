@@ -1,0 +1,381 @@
+
+@require "variables"
+
+$background-hover-color = mix(white, $blue, 12%)
+$header-height = 3.5rem // when wider than $small
+$mobile-header-height = 3rem // when narrower than $small
+$bottom-line-height = $thick-line-width
+
+arrow()
+  display inline-block
+  width 1.5rem
+  height 7px
+  position relative
+
+  &:after
+    content ''
+    display block
+    position absolute
+    right 0
+    height 0
+    width 0
+    border 6px solid transparent
+    border-top 6px solid rgba(white, 0.7)
+    border-left 6px inset transparent
+
+
+dropdown-button()
+  text-shadow-on-dark-background()
+  padding 0 1.5rem
+  height 100%
+  display flex
+  align-items center
+  color white
+  z-index 2 // Above the dropdown's shadow
+  position relative
+  &.current
+    // Add an invisible border-top in order to keep the text
+    // vertically centered
+    border-top solid transparent $thick-line-width
+    border-bottom solid $orange $thick-line-width
+  &:hover, &.active
+    text-decoration none
+    background-color $background-hover-color
+    border-bottom none
+    border-top none
+  .arrow
+    arrow()
+
+
+logbox()
+  // Mailbox, notifications, user profile, “login” and “register”
+  // buttons
+  display flex
+  justify-content flex-end
+
+  &.unlogged
+    display flex
+    a
+      dropdown-button()
+      background lighten($blue, 7.5%)
+    @media screen and (max-width: $small)
+      font-size 0.8rem
+      a
+        dark-button()
+        padding 0.5rem 0.75rem
+        margin-left 0.5rem
+        height initial
+        align-self center
+
+  .notifs-links
+    display flex
+
+  .notif-count
+    display block
+    position absolute
+    z-index 1
+    background $color-danger
+    border-radius 4rem
+    text-align center
+    min-width 1.25rem
+    padding 0 0.25rem
+    height @min-width
+    font-size 0.75rem
+    top 0.4rem
+    right 0.4rem
+    @media screen and (min-width: $small)
+      top 0.6rem
+      right 0.6rem
+
+  .ico-link
+    dropdown-button()
+    span.notif-text
+      font-size 0
+    .ico-messages
+      icon($messages)
+    .ico-notifs
+      icon($notifications)
+    .ico-alerts
+      icon($alerts)
+    @media screen and (max-width: $small)
+      padding-left 1rem
+      padding-right @padding-left
+
+  a#my-account
+    display block
+    $size = $header-height - $bottom-line-height
+    &:hover, &.active
+      filter contrast(0.8) brightness(1.2)
+    &, img
+      height $size
+      width $size
+    @media screen and (max-width: $small)
+      $size = $mobile-header-height - $bottom-line-height
+      &, img
+        height $size
+        width $size
+
+  .my-account
+    .username
+      display none
+
+  .active+.dropdown
+    display flex
+
+
+
+header-logo-link()
+  dropdown-button()
+  ellipsis()
+
+  display inline-block
+  height $header-height - $bottom-line-height
+
+  @media screen and (max-width: $medium)
+    flex-grow 0
+
+    vertical-align middle
+    line-height remove-unit($header-height - $bottom-line-height)
+    padding 0
+    padding-right 1rem
+    &:before
+      content ''
+      display inline-block
+      background url('../images/logo-mobile@2x.png') no-repeat left center
+      background-size $header-height - 1rem // Simulate padding
+      height @background-size
+      width @height
+      vertical-align inherit
+      margin-right 0.5rem
+
+  @media screen and (max-width: $small)
+    height $mobile-header-height - $bottom-line-height
+    line-height remove-unit($mobile-header-height - $bottom-line-height)
+    padding-right 0.5rem
+    font-size 0
+    &:before
+      background-size $mobile-header-height - 1rem // Simulate padding
+      width 2rem
+      margin-right 0.25rem
+    &:after
+      content attr(data-title)
+      font-size 1rem
+      vertical-align inherit
+
+  @media screen and (min-width: $medium + $iota)
+    background url('../images/logo@2x.png') no-repeat center center
+    background-size 90% // Simulate padding
+    font-size 0
+    width 16rem
+
+
+header()
+  z-index 1
+  position relative
+  display flex
+  height $header-height
+  background $blue
+  color white
+  border-bottom solid $bottom-line-height $orange
+  @media screen and (max-width: $small)
+    height $mobile-header-height
+
+  a
+    color $light-turquoise
+
+  .header-logo, .logbox
+    flex-grow 1
+    flex-shrink 0
+    flex-basis 0
+
+  .header-logo
+    display flex
+    @media screen and (max-width: $medium)
+      flex-shrink 1
+      min-width 0
+
+  .header-logo-link
+    header-logo-link()
+
+  nav.header-menu
+    display flex
+    @media screen and (max-width: $medium)
+      display none
+
+  .header-menu-list
+    flex 1
+    list-style none
+    display flex
+    justify-content center
+    padding 0
+    margin 0
+    &>li
+      a.mobile-menu-link
+        text-transform uppercase
+        dropdown-button()
+        padding-right 1rem
+
+  .has-dropdown.active+.dropdown
+    display flex
+
+  .logbox
+    logbox()
+
+
+link-in-dropdown()
+  cursor pointer
+  background none
+  padding 0.2rem 0
+  color $light-turquoise
+  transition padding 0.2s
+  text-align left
+  &:hover
+    padding-left 0.5rem
+    padding-right 0.5rem
+    background $blue
+    text-decoration none
+
+
+.dropdown
+  display none
+  position absolute
+  background $background-hover-color
+  box-shadow 0 0.25rem 1rem rgba(black, 0.25)
+  flex-direction column
+  align-items stretch
+  padding 0.5rem
+
+  a, button[type=submit]
+    flex 1
+    border none
+    link-in-dropdown()
+    text-shadow-on-dark-background()
+
+  ul
+    list-style none
+    padding 0
+
+  .dropdown-link-all
+    margin 0.5rem
+    text-align center
+
+  .dropdown-title
+    padding 0.25rem 0
+
+  // Yes, ul>ul, that’s right. The markup is broken, see #4527.
+  // TODO: Fix the markup.
+  ul>ul>li.dropdown-title
+    margin 0.5rem
+
+
+// Dropdown for “Bibliothèque”, “Tribune” and “Forum”
+.header-menu .dropdown
+  left 0
+  right 0
+  margin auto // center horizontally on huge displays
+  max-width $max-width * 2
+
+  &>.dropdown-list
+    border-top solid $thin-line-width rgba($blue, 0.5)
+    display flex
+    padding 0
+    &>li
+      margin 0.5rem
+
+    li
+      flex 1
+      display flex
+      ul
+        flex 1
+        padding 0
+
+
+// Dropdown for “Messages” and “Notifications”
+.logbox .dropdown
+  right 0
+  width 100%
+  @media screen and (min-width: $small)
+    width 30rem
+    &.my-account-dropdown
+      width 20rem
+
+  .dropdown-title
+    padding 0.5rem
+    padding-bottom 0.75rem
+    border-bottom solid $thin-line-width rgba($blue, 0.5)
+
+  .dropdown-list
+    margin 0.5rem
+    margin-top 0.75rem
+    display flex
+    flex-direction column
+    li
+      display flex
+    form
+      flex 1
+      display flex
+    a
+      img
+        vertical-align middle
+        margin-right: 0.5rem
+      .date
+        float right
+        &:after
+          content ''
+          display block
+          clear both
+      .topic
+        margin-top 0.5rem
+        display block
+        color white
+      .avatar
+        width 2rem
+        height @width
+
+  &:not(.my-account-dropdown)
+    a:not(.dropdown-link-all)
+      padding-top 0.5rem
+      padding-bottom 0.5rem
+
+  .pm-new
+    icon($pm-new-white)
+    float right
+    width 1rem
+    height 1rem
+    &:hover
+      background-color transparent
+
+
+
+// The hamburger
+.mobile-menu-btn
+  flex-shrink 0
+
+  display none
+  width $header-height
+  height @width
+  justify-content center
+  align-items center
+  cursor pointer
+
+  &:before
+    content ''
+    icon($menu)
+
+  @media screen and (max-width: $medium)
+    display flex
+
+  @media screen and (max-width: $small)
+    width $mobile-header-height
+    height @width
+
+
+.header-container
+  display flex
+  flex-direction column
+
+  box-shadow 0 0 0.5rem rgba(black, 0.25)
+  z-index 2 // For the box shadow
+
+  header
+    header()

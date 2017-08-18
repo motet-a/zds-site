@@ -270,7 +270,8 @@
                     elemButton   = elemButtonLi.appendChild(this.createButton(currentButton, { display: "button", type: buttons[b], textarea: textareaId }));
                 }
 
-                elemButton.style.marginRight = "20px";
+                // TODO: Add a CSS class propertly instead of doing this
+                // elemButton.style.marginRight = "20px";
             }
         },
 

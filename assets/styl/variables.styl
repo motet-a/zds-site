@@ -1,0 +1,143 @@
+// If you want to change this, you may want to do it also in
+// templates/base.html. Particulary in the meta tag named theme-color and
+// msapplication-navbutton-color.
+
+@require "../../dist/styl/sprite"
+
+// Useful in @media queries. Kinda hackish.
+$iota = 0.0000001
+
+// https://github.com/zestedesavoir/documents-communication/tree/master/print#couleurs-charte-graphique
+$blue = #084561 // TODO: Rename to $dark-blue or $sea-blue or something fancier
+$turquoise = #1088bf
+$light-turquoise = #bee6f9
+$orange = #f8ad32
+
+$color-sidebar-background = #f8f8f8
+
+$color-helpful = #e9f9dc
+
+$color-success = #48a200
+$color-warning = #e67e22
+$color-danger = #c0392b
+
+$color-keyboard = #f8f6ea
+
+$color-staff-link = $orange
+$color-hat = #2b5c73
+
+$color-hr = #ddd
+
+$thin-line-width = 0.05rem // Below headings
+$thick-line-width = 0.2rem // Below the header and above the footer
+
+$font-sans-serif = "Source Sans Pro", "Segoe UI", "Trebuchet MS", Helvetica, "Helvetica Neue", Arial, sans-serif
+$font-monospace = "Source Code Pro", monospace
+
+$max-width = 65rem
+
+$small = 40rem
+$medium = 60rem
+$large = 90rem
+
+ellipsis()
+  // Adds a “…” ellipsis when the text overlaps
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+
+button()
+  border none
+  text-decoration none
+  color #444
+  background #eee
+  padding 0.5em 1em
+  display inline-block
+  text-align center
+  &:hover
+    cursor pointer
+    background #ddd
+    color black
+    text-decoration none
+
+dark-button()
+  button()
+  background lighten($blue, 7.5%)
+  color white
+  &:hover
+    text-shadow none
+    background white
+    color $blue
+
+heading-base()
+  // Base style for h1, h2, h3, ...
+  font-weight normal
+  line-height 1.75
+  font-size 1.4rem
+  color $blue
+
+// TODO: That $display-block parameter is a dirty hack
+underlined-heading($display-block = false)
+  ellipsis()
+  heading-base()
+  border-bottom $thin-line-width solid $orange
+  position relative
+
+  if $display-block
+    display block
+  else
+    display inline-block
+
+  &>.btn
+    @media screen and (max-width: $medium)
+      display none
+    button()
+    font-size 1rem
+    float right // requires `display: inline-block` in the parent element
+    background transparent
+
+with-underlined-headings($display-block = false)
+  &>h1, &>h2, &>h3
+    underlined-heading($display-block)
+  &>h4, &>h5
+    heading-base()
+    font-size 1.1rem
+
+tag-button()
+  button()
+  padding 0.25em 0.5em
+
+card-shadow()
+  box-shadow 0 0 0.25rem rgba(black, 0.25)
+
+// A card is a white element with a slight shadow, like the Material ones.
+card()
+  card-shadow()
+  background white
+  margin 0.5rem
+
+icon($name)
+  display block
+  width sprite-width($name)
+  height sprite-width($name) // This is a hack and not an error
+  sprite-position($name)
+  sprite-2x() // TODO
+  background-repeat no-repeat
+
+text-shadow-on-dark-background()
+  text-shadow 0 0 0.15em rgba(black, 0.75);
+
+message-balloon-outline()
+  box-shadow 0 0 0 $thin-line-width $color-hr
+
+
+// Minimal responsive grid
+grid-row()
+  display flex
+  flex-wrap wrap
+
+// Must be used for each children of a grid-row().
+grid-column($column-count, $margin)
+  $a = 100% / $column-count
+  $b = $margin * 2
+  flex-basis 'calc(%s - %s)' % ($a $b)

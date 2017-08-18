@@ -57,7 +57,7 @@
 {% block content_out %}
     <section class="flexpage-header">
         <div class="flexpage-wrapper">
-            <div class="flexpage-title-tool">
+            <div class="flexpage-library-header">
                 <div class="picto">
                     <img src="/static/images/logo-library.png">
                 </div>
@@ -111,12 +111,22 @@
                         </div>
                     {% endif %}
                 </div>
+            </div>
 
                 {% if level < 4 %}
-                    <div class="aside">
+                    <div class="search-box">
                         <form action="{% url 'search:query' %}" id="search-form" class="search" method="get">
-                            <label for="id_q" class="control-label">Recherche</label>
-                            <input id="id_q" maxlength="150" name="q" required="required" type="search" placeholder="{% trans 'dans' %} {% if subcategory %}{{ subcategory.title|lower }}{% elif category %}{{ category.title|lower }}{% else %}{% trans 'la bibliothèque' %}{% endif %}…">
+
+                            <label for="id_q"
+                                   class="control-label">Recherche</label>
+
+                            <input id="id_q"
+                                   maxlength="150"
+                                   name="q"
+                                   required="required"
+                                   type="search"
+                                   placeholder="{% trans 'dans' %} {% if subcategory %}{{ subcategory.title|lower }}{% elif category %}{{ category.title|lower }}{% else %}{% trans 'la bibliothèque' %}{% endif %}…">
+
                             <input type="hidden" name="models" value="content">
                             <input type="hidden" name="from_library" value="on">
                             {% if category %}
@@ -125,15 +135,17 @@
                                     <input type="hidden" name="subcategory" value="{{ subcategory.slug }}">
                                 {% endif %}
                             {% endif %}
+
                             <button class="btn ico-after ico-search" type="submit" title="Rechercher"></button>
                         </form>
                     </div>
                 {% endif %}
-            </div>
         </div>
     </section>
 
-    <div class="flexpage-wrapper">
-        {% block content_category %}{% endblock %}
+    <div class="flexpage-body">
+        <div class="flexpage-wrapper">
+            {% block content_category %}{% endblock %}
+        </div>
     </div>
 {% endblock %}

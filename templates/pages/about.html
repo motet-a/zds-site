@@ -31,9 +31,9 @@
         {% endblocktrans %}
     </p>
 
-    <div>
+    <div class="row">
         {% if app.site.licenses %}
-            <div class="content-col-3">
+            <div class="column">
                 <h3>{% trans "Droits" %}</h3>
                 {% if app.site.licenses.source %}
                     <p>
@@ -57,7 +57,7 @@
             </div>
         {% endif %}
 
-        <div class="content-col-3">
+        <div class="column">
             <h3>{% trans "Système / Back-end" %}</h3>
             <p>
                 {% trans "Le back-end est propulsé par les outils suivants :" %}
@@ -89,7 +89,7 @@
             </ul>
         </div>
 
-        <div class="content-col-3">
+        <div class="column">
             <h3>{% trans "Front-end" %}</h3>
             <p>
                 {% trans "Le front-end utilise les outils suivants :" %}

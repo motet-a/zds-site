@@ -15,7 +15,6 @@ Display a list of content_item.part.html. This template is fully customizable by
 {% if paginated_top %}
     {% include "misc/paginator.html" with position="top" %}
 {% endif %}
-    {% if public_contents %}
         <div class="content-item-list">
             {% for public_content in public_contents %}
                 {% if public_content.content_type == 'ARTICLE' or public_content.content_type == 'OPINION' %}
@@ -23,16 +22,16 @@ Display a list of content_item.part.html. This template is fully customizable by
                 {% else %}
                     {% include "tutorialv2/includes/content_item.part.html" with public_content=public_content show_description=True %}
                 {% endif %}
+            {% empty %}
+                <p>
+                    {% trans "Aucune publication disponible" %}.
+                </p>
             {% endfor %}
-        {% for i in col_number|times %}
-            <div class="fill"></div>
-        {% endfor %}
+
+            {% for i in col_number|times %}
+                <div class="fill"></div>
+            {% endfor %}
         </div>
-    {% else %}
-        <p>
-            {% trans "Aucune publication disponible" %}.
-        </p>
-    {% endif %}
 {% if paginated_bottom %}
     {% include "misc/paginator.html" with position="bottom-clear" %}
 {% endif %}

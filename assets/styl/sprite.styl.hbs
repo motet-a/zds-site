@@ -1,0 +1,21 @@
+
+// TODO: This pollutes the global scope. Consider using a map instead.
+{{#each sprites}}
+${{strings.name}} = {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}}
+{{/each}}
+
+sprite-width($sprite)
+  return $sprite[2]
+
+sprite-height($sprite)
+  return $sprite[3]
+
+sprite-position($sprite)
+  background-position $sprite[0] $sprite[1]
+
+sprite()
+  background-image url('{{spritesheet.escaped_image}}')
+
+sprite-2x()
+  background-image url('{{retina_spritesheet.escaped_image}}')
+  background-size {{spritesheet.px.width}} {{spritesheet.px.height}}

@@ -25,7 +25,8 @@
 
 
 {% block content_out %}
-    <section class="content-col-2">
+    <div class="content-wrapper row">
+    <section class="column">
         <h1 id="infos-generales">
             {% trans "Profil de" %} {{ usr.username }}
         </h1>
@@ -65,10 +66,6 @@
                 {% endif %}
             </ul>
         </div>
-
-
-        <hr class="clearfix" />
-
 
         <ul class="member-social">
             {% if profile.show_email and user.is_authenticated %}
@@ -144,7 +141,7 @@
 
 
 
-    <section class="content-col-2 tutorial-list">
+    <section class="column tutorial-list">
         {% if tutorials %}
             <h2 class="ico-after ico-tutorials" id="derniers-tutoriels">{% trans "Derniers tutoriels" %}</h2>
             <div class="content-item-list">
@@ -176,12 +173,11 @@
             </div>
         {% endif %}
     </section>
-
+    </div>
 
 
     {% if profile.biography %}
-        <hr class="clearfix" />
-        <section class="full-content-wrapper without-margin article-content">
+        <section class="content-wrapper without-margin article-content">
             <h2 id="biographie">{% trans "Biographie" %}</h2>
             {% if not profile.end_ban_read and not profile.can_read %}
                 <em>{% trans "La biographie de ce membre est masquée car il a été banni définitivement." %}</em>
@@ -192,8 +188,7 @@
     {% endif %}
 
     {% if perms.member.change_profile and actions %}
-        <hr class="clearfix" />
-        <section class="full-content-wrapper without-margin article-content">
+        <section class="content-wrapper without-margin article-content">
             <h2 id="historique-moderation">{% trans "Historique de modération" %}</h2>
             <table class="fullwidth">
                 <thead>
@@ -231,8 +226,7 @@
     {% endif %}
 
     {% if stats_filename and perms.member.change_profile %}
-        <hr class="clearfix" />
-        <section class="full-content-wrapper without-margin">
+        <section class="content-wrapper without-margin">
             <h2 id="activity">{% trans "Activité" %}</h2>
             <figure>
                 {% autoescape off %}

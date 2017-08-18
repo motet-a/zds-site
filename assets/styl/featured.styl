@@ -1,0 +1,92 @@
+
+@require "variables"
+
+.featured-resource-row
+  padding 0.5rem
+  grid-row()
+
+.featured-resource-item
+  background-color $blue // Visible while the image is loading
+  card-shadow()
+  margin 0.5rem
+  flex-shrink 0
+  flex-grow 0
+  grid-column(5, @margin)
+  position relative
+  overflow hidden // hide blurred borders
+
+  @media screen and (max-width: $medium)
+    grid-column(4, @margin)
+
+  @media screen and (max-width: $small)
+    grid-column(2, @margin)
+
+  @media screen and (max-width: $small * 0.6)
+    grid-column(1, @margin)
+
+  a
+    display block
+
+    // Must be squared to prevent flickering when the page loads
+    padding-bottom 100%
+
+    &:hover
+      h3
+        transform translateX(10%) scale(1.2)
+      img
+        filter blur(0.25rem)
+      .featured-resource-meta
+        background rgba($blue, 0.5)
+        background linear-gradient(
+          20deg,
+          rgba($blue, 0.9),
+          rgba($blue, 0.4)
+        )
+
+  img
+    position absolute
+    display block
+    width 100%
+    filter blur(0)
+
+  .featured-resource-meta
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+
+    padding 0.5rem
+    color white
+    background linear-gradient(
+      20deg,
+      rgba(black, 0.5),
+      transparent 75%,
+      transparent
+    )
+    text-shadow 0 0 0.2rem black
+
+    display flex
+    flex-direction column
+    justify-content flex-end
+
+    h3, p
+      ellipsis()
+      margin 0
+      padding 0.25rem
+      padding-top 0
+      font-weight normal
+
+    h3
+      font-size 1rem
+      transition transform 0.1s
+
+    p
+      font-size 0.9rem
+
+
+
+.featured-resource-edit-form
+  .featured-resource-item
+    max-width 15rem
+    margin 0

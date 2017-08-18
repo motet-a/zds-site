@@ -1,0 +1,161 @@
+
+@require "variables"
+
+//.topic-message-form-with-preview
+
+.topic-message
+  margin 2rem 0
+  display flex
+
+  &>.user, &>form>.user
+    @media screen and (max-width: $medium)
+      display none
+
+  &>form
+    flex-grow 1
+    display flex
+
+  &.helpful
+    .message
+      background mix($color-success, white, 10%)
+
+message-arrow()
+  content ''
+  position absolute
+  transform rotate(45deg)
+  width 1rem
+  height @width
+  top 1rem
+  left -0.5rem
+
+.message
+  flex-grow 1
+  background white
+  position relative
+  padding 0.25rem 0
+  border-top solid $thin-line-width $color-hr
+
+  @media screen and (min-width: $medium)
+    border-top none
+    message-balloon-outline()
+    padding 0.25rem
+    margin-left 1.5rem
+
+    &:before
+      message-arrow()
+      message-balloon-outline()
+      z-index -1
+
+    &:after
+      message-arrow()
+      background inherit
+      z-index 0
+
+  &>*
+    position relative
+    z-index 1
+
+  .hidden
+    // TODO: It would be better not to write the hidden elements
+    // in the HTML.
+    display none
+
+  .is-author
+    // TODO: Ugly
+    color #aaa
+    position absolute
+    top -1.75em
+
+  .message-metadata
+    display flex
+    margin 0.25rem
+    @media screen and (min-width: $medium)
+      display inline-block
+    @media screen and (max-width: $medium)
+      .username
+        flex-grow 1
+
+  .message-actions // Edit, quote, flag, …
+    display flex
+    display none
+    list-style none
+    margin 0
+    padding 0
+    a
+      padding 0.25rem
+
+    @media screen and (min-width: $medium)
+      position absolute
+      top 0
+      right 0
+
+  .message-karma
+    display flex
+    margin-left auto
+    align-items center
+
+    button.tick // “This answer is helpful”
+      margin-right 0.5rem
+      &:before
+        content ''
+        icon($tick-light)
+        display inline-block
+        margin-right 0.5rem
+        vertical-align bottom
+
+    span // Read-only thumbup or thumbdown
+      font-size 0
+      height 1.5rem
+      width 2rem
+      display flex
+      align-items center
+      justify-content center
+      opacity 0.2
+      &:after
+        content ''
+
+    .upvote
+      &:after
+        icon($thumb-up)
+
+    .downvote
+      &:after
+        icon($thumb-down)
+
+  .message-content
+    display flex
+    flex-direction column
+    &>*
+      margin 0.5rem 0
+      @media screen and (min-width: $medium)
+        margin 0.5rem
+    textarea
+      width initial
+      min-height 6rem
+    .zform-toolbar+textarea
+      margin-top 0
+
+  .message-bottom
+    padding 0.25rem 0
+    @media screen and (min-width: $medium)
+      padding 0.25rem
+
+  .message-helpful
+    color $color-success
+    &:before
+      content ''
+      icon($tick-green)
+      display inline-block
+      margin-right 0.5rem
+
+.mde-editor
+  margin-top 0.25rem
+
+// Also used in /contenus/reactions/ajouter/ (out of a .message)
+.message-bottom
+  display flex
+  .message-submit
+    margin-left auto
+    display flex
+    button
+      margin-left 0.5rem

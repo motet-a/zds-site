@@ -1,0 +1,32 @@
+
+@require "search-form"
+
+body.flexpage
+  .sub-header
+    display none
+
+.flexpage-header
+  text-shadow-on-dark-background()
+  background $blue
+  background $blue radial-gradient(at top, hsla(0,0%,100%,.1), transparent 60%)
+  color white
+  display flex
+  justify-content center
+
+  a
+    color white
+    text-decoration underline
+
+  h2
+    underlined-heading()
+    color inherit
+    border-color white
+    width 100%
+
+  .search-box
+    search-form()
+
+.flexpage-wrapper, .flexpage-column
+  &>section
+    &>h2
+      underlined-heading($display-block = true) // Used in /bibliotheque/

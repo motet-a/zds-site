@@ -1,0 +1,100 @@
+
+@require "variables"
+
+search()
+  $placeholder-color = #888
+
+  display flex
+  background #333
+
+  form
+    flex 1
+    input
+      background none
+      border none
+      color white
+      height 3rem
+      padding 0 1rem
+      ::placeholder
+        color $placeholder-color
+    button
+      display none
+
+  .search-more
+    color $placeholder-color
+    &:before
+      content '+'
+      font-weight bold
+      padding 0 1rem
+      font-size 2rem
+      display flex
+      align-items center
+    &:hover
+      text-decoration none
+      color white
+
+
+.mobile-menu
+  display block
+  background #222
+  position fixed
+  overflow-x hidden
+  overflow-y auto
+  z-index -1 // Behind the page
+  transform translate3d(-20%, 0, 0)
+  width 90%
+  height 100%
+
+  .search
+    search()
+
+  .mobile-menu-link
+    color #ccc
+    height 2rem
+    line-height 2rem
+    text-decoration none
+    background none
+    border none
+    cursor pointer
+    padding 0
+    text-align left
+
+  .mobile-menu-bloc
+    display flex
+    flex-direction column
+    padding 1rem
+
+    &[data-title]:before
+      content attr(data-title)
+      display block
+      font-size 1rem
+      text-transform uppercase
+      border-bottom $thin-border-width solid #3f3f3f
+      font-weight 700
+      color #888
+      margin-bottom 0.125rem
+
+  .my-account
+    height initial
+    display block
+    img
+      height 2rem
+      width @height
+      display inline-block
+      vertical-align middle
+      margin 0.5rem
+      margin-left 0
+
+.page-container, .mobile-menu
+  transition transform 0.3s
+
+.page-container
+  transform translate3d(0, 0, 0)
+
+.show-mobile-menu
+  overflow hidden
+  .page-container
+    transform translate3d(90%,0,0)
+
+  .mobile-menu
+    transform translateZ(0)

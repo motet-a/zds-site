@@ -1,0 +1,82 @@
+
+@require "variables"
+
+form.content-wrapper
+  flex-direction column
+
+input-border()
+  border solid #ddd 1px
+
+input, button
+  font-size 1rem
+  font-family inherit
+
+textarea
+  input-border()
+  line-height normal // normalize.css sets a wrong line-height
+  resize vertical
+  padding 0.5rem
+  width 100%
+  &:invalid
+    border-color $color-danger
+    outline-color $color-danger
+
+input
+  &[type="email"],
+  &[type="number"],
+  &[type="password"],
+  &[type="tel"],
+  &[type="text"],
+  &[type="url"]
+    input-border()
+    height 2rem
+    padding 0 0.5rem
+    width 100%
+    &:invalid
+      border-color $color-danger
+      outline-color $color-danger
+
+  &[type="checkbox"]
+    &:checked
+      icon($check)
+      width 1rem
+      height 1rem
+    display inline-block
+    input-border()
+    -webkit-appearance none
+    width 1rem
+    height 1rem
+    margin-right 0.5rem
+
+
+.content-container
+  label
+    line-height 2
+    height 2rem
+    &.checkbox
+      display flex
+      align-items center
+      margin 0.5rem 0
+
+  .asteriskField
+    margin-left 0.25rem
+    color $color-danger
+
+  .buttonHolder
+    margin 0.5rem 0
+    display flex
+    justify-content flex-end
+
+  .control-group
+    margin 0.5rem 0
+
+.content-container
+  button[type="submit"],
+  input[type="submit"]
+    button()
+    &:not(.btn-grey)
+      color white
+      background $color-success
+      &:hover
+        color white
+        background lighten($color-success, 10%)

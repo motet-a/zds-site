@@ -1,0 +1,91 @@
+
+@require "variables"
+
+$sub-header-height = 2rem
+
+.breadcrumb
+  flex 1
+  display flex
+
+  ol
+    margin 0
+    padding 0
+    list-style none
+    display flex
+    margin 0 1rem
+
+  li
+    display flex
+    align-items center
+    color #666
+
+    &:not(:last-child):after
+      content ''
+      icon($ariane)
+      height 30px // HACK
+      opacity 0.25
+      margin 0 0.5rem
+
+
+square-button()
+  height $sub-header-height
+  width @height
+  color $blue
+  text-align center
+  &:hover
+    background white
+
+
+search()
+  flex-basis auto
+  flex-shrink 0
+  flex-grow 0
+  display flex
+  form
+    display flex
+  input
+    transition width 0.1s
+    width 6rem
+    border none
+    background none
+    &:focus
+      background white
+      width 12rem
+      &+button
+        width 2rem
+
+  button[type="submit"]
+    square-button()
+    background none
+    border none
+    font-size 0
+    cursor pointer
+    padding 0
+
+    width 0
+    overflow hidden
+    transition width 0.2s
+
+    &:before
+      content ''
+      icon($search)
+      display inline-block
+
+  .search-more
+    square-button()
+    font-size 2em
+    line-height 1
+    &:before
+      content '+'
+    &:hover
+      text-decoration none
+
+.sub-header
+  display flex
+  height $sub-header-height
+  background $color-sidebar-background
+  @media screen and (max-width: $medium)
+    display none
+
+  .search
+    search()

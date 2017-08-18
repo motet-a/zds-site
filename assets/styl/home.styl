@@ -1,0 +1,124 @@
+
+@require "variables"
+
+.home-heading
+  underlined-heading()
+
+  &.ico-after:before
+    content ''
+    display inline-block !important
+    vertical-align top
+    margin-right 0.5rem
+
+  &.ico-forum:before
+    icon($forum-heading)
+
+  &.ico-news:before
+    icon($star-heading)
+
+  &.ico-tutorials:before, &.ico-opinions:before
+    icon($tutorials)
+
+  &.ico-articles:before
+    icon($articles)
+
+
+section.home-pinned-content, .home-row>section
+  @media screen and (min-width: $medium)
+    padding 1rem
+  display flex
+  flex-direction column
+  min-width 0
+  &>h2
+    margin 1rem
+
+.home-row
+  display flex
+  @media screen and (max-width: $medium)
+    flex-direction column
+  &>section
+    flex 1
+    flex-basis 100%
+
+
+.home
+  $header-body-overlap = 12rem
+
+  @media screen and (min-width: $medium)
+    .flexpage-header
+      margin-bottom - $header-body-overlap
+      padding-bottom $header-body-overlap
+
+    .home-heading.heading-white
+      color white
+      border-bottom-color white
+      &.ico-news:before
+        icon($star-heading-white)
+      a
+        color white
+
+
+.flexpage-header
+  .home-description-button
+    dark-button()
+
+  .home-description
+    text-align justify
+    display flex
+    @media screen and (max-width: $medium)
+      flex-direction column
+    &>.column
+      flex 1
+      flex-basis 100%
+      margin 1rem
+    &.connected blockquote
+      flex 1
+      margin 1rem
+      font-size 1.5rem
+      font-weight lighter
+      text-align center
+      &:before
+        content '«\00A0'
+      &:after
+        content '\00A0»'
+
+  .home-description.short
+    flex-direction column
+    align-items center
+    @media screen and (min-width: $medium)
+      display none
+
+    @media screen and (max-width: $medium)
+      &:not(:target)
+        .home-description-button.close-description
+          display none
+        & ~ .home-description
+          display none
+      &:target
+        .home-description-button:not(.close-description)
+          display none
+
+
+.content-item.write-tutorial
+  background $blue
+  color white
+  display flex
+  padding 0.5rem
+  @media screen and (max-width: $medium)
+    display none
+
+  &>*
+    margin 0.5rem
+
+  .write-tutorial-text
+    flex 1
+    text-align center
+    .lead
+      font-weight bold
+      font-size 1.2rem
+    p
+      margin 0.5rem 0
+
+  .btn-write-tutorial
+    dark-button()
+    align-self center

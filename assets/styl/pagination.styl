@@ -1,0 +1,42 @@
+
+@require "variables"
+
+arrow()
+  content ''
+  opacity 0.6 // HACK: Not exactly the right color
+
+.pagination
+  list-style none
+  padding 0
+  display flex
+  height 2rem
+  border solid $thin-line-width #eee
+  display flex
+  li
+    display flex
+    a
+      display flex
+      align-items center
+      justify-content center
+      padding 0 0.5rem
+      min-width 2rem
+      &:hover
+        text-decoration none
+        &:not(.current)
+          background #f4f4f4
+    a.current
+      background $turquoise
+      color white
+
+  .next
+    margin-left auto
+    & a:after
+      arrow()
+      margin-left 0.5rem
+      icon($arrow-right-blue)
+
+  .prev
+    & a:before
+      arrow()
+      margin-right 0.5rem
+      icon($arrow-left-blue)

@@ -1,0 +1,156 @@
+
+@require "variables"
+
+
+.content-item-list, .topic-list
+  display flex
+  flex-direction column
+  padding 0.5rem
+  &>p // “no items”
+    margin 0.5rem
+
+.more-link
+  // “Plus d’articles”, “Plus de tutoriels”, …
+  // Used in /bibliotheque/
+  card()
+  margin 1rem
+  padding 0.5rem
+  display block
+  text-align center
+
+.content-item-list + .more-link
+  margin-top 0
+
+title()
+  font-weight normal
+  margin 0
+  font-size 1.1rem
+
+
+content-info()
+  flex 1
+  padding 0.5rem
+
+  &>*
+    margin 0.5rem
+
+  &>a
+    // title link
+    display block
+    text-decoration none
+    &:hover
+      h3
+        text-decoration underline
+    .content-description
+      margin 0
+
+  overflow hidden
+
+  p, h3, span, time
+    ellipsis()
+
+  h3
+    title()
+
+  .content-description
+    color #888
+
+  .content-meta
+    font-size 0.9rem
+    .content-authors
+      @media screen and (max-width: $medium)
+        display none
+    &, a
+      color $orange
+    p
+      margin 0.25rem 0
+
+  .content-reactions
+    display none // TODO
+
+
+.content-item
+  card()
+  display flex
+
+  .content-info
+    content-info()
+
+  .content-tags
+    list-style none
+    margin 0
+    padding 0
+    text-align right
+
+    @media screen and (max-width: $medium)
+      display none
+
+    li
+      display block
+      margin 0.25rem 0
+
+    a
+      tag-button()
+
+
+// TODO: Consider using .content-item instead.
+.topic-list .topic
+  card()
+  display flex
+  padding 0.5rem
+
+  .topic-infos
+    flex-grow 0
+    flex-shrink 0
+    align-self center
+    margin 0.5rem
+    width 1rem
+
+    span
+      font-size 0
+      margin 0.5rem 0
+    .lock
+      icon($lock-blue)
+    .tick.green
+      icon($tick-green)
+    .star.blue
+      icon($star-blue)
+
+  .topic-tags
+    display none
+
+  .topic-title-link
+    display flex
+    flex-direction column
+    &:hover
+      text-decoration none
+      .topic-title
+        text-decoration underline
+
+  .topic-subtitle
+    color #888 !important
+
+  .topic-description
+    margin 0 0.5rem
+    min-width 0
+    flex-grow 1
+    display flex
+    flex-direction column
+    h4
+      title()
+    img // Used in /mise-en-avant/, for the featured items
+      align-self stretch
+      max-width 5rem
+
+  .topic-members
+    color #888
+    ellipsis()
+
+  .topic-answers
+    flex-shrink 0
+    align-self center
+
+    white-space nowrap
+    margin 0.5rem
+    font-size 0.9rem
+    color $orange

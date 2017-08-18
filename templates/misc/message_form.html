@@ -43,8 +43,10 @@
         </div>
     {% endif %}
 
-    <section class="topic-message">
-        <form action="{{ form_action }}" method="post">
+    <section class="topic-message-form-with-preview">
+        <form action="{{ form_action }}"
+              method="post"
+              class="topic-message">
             {% include "misc/message_user.html" with hide_metadata=True %}
 
 

@@ -1,0 +1,35 @@
+
+@require "variables"
+
+set-selection()
+  &::selection
+    {block}
+
+  &::-moz-selection
+    {block}
+
+normal-selection()
+  color white
+  background $blue
+
+negative-selection()
+  color $blue
+  background white
+  text-shadow none
+  opacity 0
+
++set-selection()
+  normal-selection()
+
+// Elements with a dark background
+.flexpage-header, .write-tutorial, .page-footer, .header-menu, .header-right, .taglist
+  &, *
+    +set-selection()
+      negative-selection()
+
+  input, textarea
+    // We don't care about buttons and others, there aren't selectable.
+    // We only care about input[type=text], input[type=password],
+    // input[type=email] and other text-like inputs.
+    +set-selection()
+      normal-selection()

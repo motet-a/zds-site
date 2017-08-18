@@ -1,0 +1,113 @@
+
+@require "variables"
+
+.flexpage-library-header
+  display flex
+
+  h1
+    font-size 2rem
+    font-weight normal
+    a
+      text-decoration none
+
+.content-linkbox-list
+  grid-row()
+  padding 0.5rem
+  margin -1rem
+  margin-bottom 0
+
+
+arrow()
+  content ''
+  width 0.75rem
+  height @width
+  border-color white
+  transform rotate(45deg)
+  $width = 0.15rem
+  border-style solid
+  border-width $width $width 0 0
+  opacity 0.5
+  transition opacity 0.1s
+
+
+linkbox-item-theme($base-bg-color)
+  .head
+    background darken($base-bg-color, 10%)
+  .body
+    background lighten($base-bg-color, 7%)
+  .tail
+    background lighten($base-bg-color, 20%)
+  a.head:hover
+    background darken($base-bg-color, 30%)
+  a.body:hover
+    background lighten($base-bg-color, 3%)
+  a.tail:hover
+    background lighten($base-bg-color, 15%)
+
+
+linkbox-item-child()
+  padding 0.25rem 0.5rem
+  color white
+  display flex
+  align-items center
+  &:hover
+    text-decoration none
+    &.head:after, &.tail:after
+      opacity 1
+
+  &.tail
+    border-top solid $thin-line-width rgba(white, 0.2)
+
+  &.body
+    flex-direction column
+    align-items stretch
+    &>*:first-child
+      text-align left
+    .right
+      text-align right
+      margin-top 0
+      opacity 0.75
+
+  &>*
+    margin 0.5rem
+
+  &>*:first-child
+    flex-grow 1
+    flex-shrink 1
+    flex-basis auto
+    ellipsis()
+
+  p.right
+    font-size 0.8rem
+    ellipsis()
+
+
+.linkbox-item
+  margin 0.5rem
+  grid-column(1, @margin)
+  @media screen and (min-width: $small)
+    grid-column(2, @margin)
+  @media screen and (min-width: $medium)
+    grid-column(4, @margin)
+    &.secondary
+      grid-column(3, @margin)
+  min-width 0
+
+  &>*
+    linkbox-item-child()
+
+  a.head, a.tail
+    &:after
+      flex-shrink 0
+      arrow()
+      margin-right 0.5rem
+
+  h3
+    font-weight normal
+    font-size 1.2rem
+
+  &.primary
+    linkbox-item-theme($blue)
+
+  &.secondary
+    linkbox-item-theme(darken($orange, 20%))

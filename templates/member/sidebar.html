@@ -8,7 +8,7 @@
             {% if profile.user == user %}
                 <a href="{% url "update-member" %}"
                    class="new-btn ico-after gear blue">
-                    {% trans "Paramètres" %} <span class="wide">{% trans "de mon compte" %}</span>
+                    {% trans "Paramètres de mon compte" %}
                 </a>
             {% else %}
                 <a href="{% url "member-settings-mini-profile" profile.user.username %}"
@@ -39,11 +39,13 @@
         <h3>{% trans "Informations" %}</h3>
         <ul>
             <li class="inactive">
-                {% if profile.user == user %}
-                    {% include 'notification/subscription_count_template.html' with subscriber_count=subscriber_count own_profile=True %}
-                {% else %}
-                    {% include 'notification/subscription_count_template.html' with subscriber_count=subscriber_count own_profile=False %}
-                {% endif %}
+                <span>
+                    {% if profile.user == user %}
+                        {% include 'notification/subscription_count_template.html' with subscriber_count=subscriber_count own_profile=True %}
+                    {% else %}
+                        {% include 'notification/subscription_count_template.html' with subscriber_count=subscriber_count own_profile=False %}
+                    {% endif %}
+                </span>
             </li>
         </ul>
     </div>

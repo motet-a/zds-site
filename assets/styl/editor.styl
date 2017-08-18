@@ -1,0 +1,94 @@
+
+@require "variables"
+
+.zform-button
+  font-size 0
+  flex-shrink 0
+  flex-grow 0
+  flex-basis auto
+  width 2rem
+  height 2rem
+  display flex
+  align-items center
+  justify-content center
+  cursor pointer
+
+  &:after
+    content ''
+
+  &:hover
+    background #eee
+
+  &.zform-button-key:after
+    icon($zform-key)
+
+  &.zform-button-bold:after
+    icon($zform-bold)
+
+  &.zform-button-italic:after
+    icon($zform-italic)
+
+  &.zform-button-strike:after
+    icon($zform-strike)
+
+  &.zform-button-abbr:after
+    icon($zform-abbr)
+
+  &.zform-button-key:after
+    icon($zform-key)
+
+  &.zform-button-monospace:after // TODO: Rename this `blockcode`
+    icon($zform-blockcode)
+
+  &.zform-button-sup:after
+    icon($zform-sup)
+
+  &.zform-button-sub:after
+    icon($zform-sub)
+
+  &.zform-button-center:after
+    icon($zform-center)
+
+  &.zform-button-right:after
+    icon($zform-right)
+
+  &.zform-button-ul:after
+    icon($zform-ul)
+
+  &.zform-button-ol:after
+    icon($zform-ol)
+
+  &.zform-button-titles:after
+    icon($zform-titles)
+
+  &.zform-button-blockcode:after
+    icon($zform-blockcode)
+
+  &.zform-button-image:after
+    icon($zform-image)
+
+  &.zform-button-quote:after
+    icon($zform-quote)
+
+  &.zform-button-link:after
+    icon($zform-link)
+
+  &.zform-button-infoblocks:after // TODO: Rename, the image name should be the same than the class name
+    icon($zform-information)
+
+  &.zform-button-chars:after
+    icon($zform-chars)
+
+
+
+.zform-toolbar
+  list-style none
+  padding 0
+  margin 0
+  display flex
+  flex-wrap wrap
+
+
+.zform-popup
+  card-shadow()
+  background white

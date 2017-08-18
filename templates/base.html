@@ -12,7 +12,7 @@
 
 
 <!DOCTYPE html>
-<html class="enable-mobile-menu" lang="fr">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
 
@@ -635,20 +635,22 @@
                             {% captureas schema %}
                                 {% block schema %}{% endblock %}
                             {% endcaptureas %}
-                            <section class="content-wrapper" {{ schema|safe }}>
-                                <h1 {% if schema %}itemprop="name"{% endif %}>
-                                    {% block headline %}{% endblock %}
-                                </h1>
+                            <section class="content-wrapper row" {{ schema|safe }}>
+                                <div class="column">
+                                    <h1 {% if schema %}itemprop="name"{% endif %}>
+                                        {% block headline %}{% endblock %}
+                                    </h1>
 
-                                {% captureas headlinesub %}
-                                    {% block headline_sub %}{% endblock %}
-                                {% endcaptureas %}
+                                    {% captureas headlinesub %}
+                                        {% block headline_sub %}{% endblock %}
+                                    {% endcaptureas %}
 
-                                {% if headlinesub %}
-                                    <h2 class="subtitle" {% if schema %}itemprop="description"{% endif %}>{{ headlinesub|safe }}</h2>
-                                {% endif %}
+                                    {% if headlinesub %}
+                                        <h2 class="subtitle" {% if schema %}itemprop="description"{% endif %}>{{ headlinesub|safe }}</h2>
+                                    {% endif %}
 
-                                {% block content %}{% endblock %}
+                                    {% block content %}{% endblock %}
+                                </div>
                             </section>
                         {% endblock %}
                     </main>
