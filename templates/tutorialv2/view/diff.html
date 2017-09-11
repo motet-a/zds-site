@@ -41,14 +41,14 @@
 {% block content_ext %}
     <ul>
         <li>
-            <strong>Version 1 :</strong>
+            <strong>Version 1&nbsp;:</strong>
             {{ commit_from.message }}
             (<a href="{% url "content:view" content.pk content.slug %}?version={{ commit_from.hexsha }}">
                 {{ commit_from.hexsha|truncatechars:8 }}
             </a>)
         </li>
         <li>
-            <strong>Version 2 :</strong>
+            <strong>Version 2&nbsp;:</strong>
             {{ commit_to.message }}
             (<a href="{% url "content:view" content.pk content.slug %}?version={{ commit_to.hexsha }}">
                 {{ commit_to.hexsha|truncatechars:8 }}

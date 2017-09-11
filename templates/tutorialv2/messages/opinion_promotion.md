@@ -2,11 +2,11 @@
 
 {% blocktrans with title=content.title|safe %}
 
-Félicitations !
+Félicitations&nbsp;!
 
-Je viens de promouvoir le billet « [{{ title }}]({{ url }}) » en article !
+Je viens de promouvoir le billet « [{{ title }}]({{ url }}) » en article&nbsp;!
 
 Il est en validation et sera examiné prochainement.
 
-À bientôt !
+À bientôt&nbsp;!
 {% endblocktrans %}

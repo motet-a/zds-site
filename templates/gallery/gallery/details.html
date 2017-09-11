@@ -32,7 +32,7 @@
 
 {% block content %}
     <div class="authors">
-        <span class="authors-label">{% trans "Galerie partagée avec" %} : </span>
+        <span class="authors-label">{% trans "Galerie partagée avec" %}&nbsp;: </span>
         <ul>
             {% for u in gallery.get_linked_users %}
                 {% captureas info %}
@@ -97,12 +97,12 @@
         </div>
     {% else %}
         <p>
-            {% trans "Aucune image" %}. <br>
+            {% trans "Aucune image." %} <br>
             {% if gallery_mode.can_write %}
                 {% url "gallery-image-new" gallery.pk as new_img_url %}
                 {% url "gallery-image-import" gallery.pk as import_archive %}
                 {% blocktrans %}
-                    Vous pouvez <a href="{{new_img_url}}">ajouter une image</a> à cette galerie dès à présent, ou <a href="{{ import_archive }}">importer une archive</a> !
+                    Vous pouvez <a href="{{new_img_url}}">ajouter une image</a> à cette galerie dès à présent, ou <a href="{{ import_archive }}">importer une archive</a>&nbsp;!
                 {% endblocktrans %}
             {% endif %}
         </p>

@@ -14,7 +14,7 @@
 
 
 {% blocktrans with username=user.username|safe title=content.title|safe type=type|safe %}
-Salut !
+Salut&nbsp;!
 
 Il me semble avoir déniché une erreur dans {{ type }}
 « [{{ title }}]({{ content_url }}) ».

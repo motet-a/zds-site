@@ -163,7 +163,7 @@
                                         {% endcaptureas %}
                                         {% blocktrans with action=action date_version=commit.authored_date|humane_time content_title=content.title %}
                                             Êtes-vous certain de vouloir <strong>{{ action }}</strong> la bêta pour le contenu
-                                            "<em>{{ content_title }}</em>" dans sa version de {{ date_version }} ?
+                                            "<em>{{ content_title }}</em>" dans sa version de {{ date_version }}&nbsp;?
                                         {% endblocktrans %}
                                     </p>
                                     <button type="submit">

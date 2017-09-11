@@ -71,7 +71,7 @@
                             <p><strong>Tous les membres</strong> peuvent écrire et <strong>publier des contenus</strong>.</p>
                             <p>Pour assurer la qualité, l'équipe du site valide chaque tutoriel et article.</p>
                         {% endblocktrans %}
-                        <h2>{% trans "… sur une plate-forme libre" %}</h2>
+                        <h2>{% trans "…&nbsp;sur une plate-forme libre" %}</h2>
                         {% blocktrans %}
                             <p>Le site est géré et financé par une <a href="{{ url_association }}">association</a> à but non lucratif.</p>
                         {% endblocktrans %}
@@ -141,7 +141,7 @@
                                     Il y a {{ contents_count }}&nbsp;publication{{ plural }} sur&nbsp;Zeste&nbsp;de&nbsp;Savoir.
                                 {% endblocktrans %}
                             </p>
-                            <p class="lead">{% trans "Pourquoi pas la vôtre ?" %}</p>
+                            <p class="lead">{% trans "Pourquoi pas la vôtre&nbsp;?" %}</p>
                         </div>
                         <a href="{% url "content:create-tutorial" %}" class="btn btn-write-tutorial">{% trans "Commencer à rédiger" %}</a>
                     </div>

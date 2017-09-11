@@ -2,10 +2,10 @@
 
 {% blocktrans with title=content.title|safe %}
 
-Salut !
+Salut&nbsp;!
 
 Je viens de prendre en charge la validation de ton contenu, « [{{ title }}]({{ url }}) ».
 
-À bientôt !
+À bientôt&nbsp;!
 
 {% endblocktrans %}
