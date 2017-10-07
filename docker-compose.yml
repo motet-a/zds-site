@@ -10,6 +10,21 @@ services:
       - ./Gulpfile.js:/zds/Gulpfile.js:ro
       - dist:/zds/dist
 
+  notifier:
+    build:
+      context: .
+      dockerfile: Dockerfile_front
+    volumes:
+      - ./notifier:/zds/notifier:ro
+    ports:
+      - "${ZDS_NOTIFIER_ADDRESS:-127.0.0.1}:${ZDS_NOTIFIER_PORT:-27274}:27274"
+    command: ["node", "notifier/index.js"]
+    links:
+      - redis
+
+  redis:
+    image: redis:4.0.2-alpine
+
   back:
     build:
       context: .
@@ -37,6 +52,8 @@ services:
       - "ZDS_ELASTICSEARCH=${ZDS_ELASTICSEARCH}"
     links:
       - elasticsearch
+      - notifier
+      - redis
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.5.2

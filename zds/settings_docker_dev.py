@@ -5,9 +5,10 @@ from os.path import join
 
 from zds.settings import *
 
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 allowed_hosts_string = os.environ.get('ZDS_ALLOWED_HOSTS')
 if allowed_hosts_string:
-    ALLOWED_HOSTS = allowed_hosts_string.split(',')
+    ALLOWED_HOSTS += allowed_hosts_string.split(',')
 
 DB_DIR = join(BASE_DIR, 'db')
 
@@ -40,3 +41,5 @@ if os.environ.get('ZDS_ELASTICSEARCH'):
             'hosts': ['elasticsearch:9200'],
         }
     }
+
+REDIS['host'] = 'redis'
