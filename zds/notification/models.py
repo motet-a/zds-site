@@ -18,6 +18,7 @@ from zds.member.models import Profile
 from zds.notification.managers import NotificationManager, SubscriptionManager, TopicFollowedManager, \
     TopicAnswerSubscriptionManager, NewTopicSubscriptionManager
 from zds.utils.misc import convert_camel_to_underscore
+from zds.utils import redis
 
 
 LOG = logging.getLogger(__name__)
@@ -78,6 +79,48 @@ class Subscription(models.Model):
         if self.is_active and self.by_email:
             self.by_email = False
             self.save()
+
+    def publish_notification_to_redis(self, notification):
+        sender = notification.sender
+        receiver = self.user
+
+        redis.publish('user-notification', {
+            'receiver': {
+                'id': receiver.pk,
+            },
+
+            'type': 'NOTIFICATION',
+
+            'notification': {
+                'id': notification.pk,
+                'title': notification.title,
+                'is_read': notification.is_read,
+                'pubdate': str(notification.pubdate),
+                'content_type': {
+                    'app_label': notification.content_type.app_label,
+                    'model': notification.content_type.model,
+                },
+                'url': settings.ZDS_APP['site']['url'] + notification.url,
+
+                'sender': {
+                    'id': sender.pk,
+                    'username': sender.username,
+                },
+            },
+        })
+
+    def publish_mark_as_read_to_redis(self, notification_pk):
+        receiver = self.user
+
+        redis.publish('user-notification', {
+            'receiver': {
+                'id': receiver.pk,
+            },
+
+            'type': 'MARKED_AS_READ',
+
+            'notification_id': notification_pk,
+        })
 
     def send_email(self, notification):
         """
@@ -156,6 +199,8 @@ class SingleNotificationMixin(object):
                 self.last_notification = notification
                 self.save()
 
+                self.publish_notification_to_redis(notification)
+
                 if send_email and self.by_email:
                     self.send_email(notification)
             elif self.last_notification is not None:
@@ -172,6 +217,7 @@ class SingleNotificationMixin(object):
         """
         if self.last_notification is not None:
             Notification.objects.filter(pk=self.last_notification.pk).update(is_read=True)
+            self.publish_mark_as_read_to_redis(self.last_notification.pk)
 
 
 class MultipleNotificationsMixin(object):
@@ -200,6 +246,8 @@ class MultipleNotificationsMixin(object):
 
             if send_email and self.by_email:
                 self.send_email(notification)
+
+        self.publish_notification_to_redis(notification)
 
     def mark_notification_read(self, content):
         """
@@ -230,6 +278,8 @@ class MultipleNotificationsMixin(object):
                 notification.save()
             except IntegrityError:
                 LOG.exception('Could not save %s', notification)
+
+        self.publish_mark_as_read_to_redis(notification.pk)
 
 
 class AnswerSubscription(Subscription):

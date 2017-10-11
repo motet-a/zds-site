@@ -387,6 +387,19 @@ ES_SEARCH_INDEX = {
     'replicas': 0,
 }
 
+# Also used by the notifier service
+REDIS = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0,
+}
+
+# Only used by the notifier service
+NOTIFIER = {
+    'host': '0.0.0.0',
+    'port': 27274,
+}
+
 GEOIP_PATH = os.path.join(BASE_DIR, 'geodata')
 
 # Fake mails (in console)

@@ -49,6 +49,7 @@ notifications:
 
 services:
   - memcached
+  - redis-server
 
 
 cache:
@@ -100,7 +101,7 @@ install:
 
   - |
     # install frontend dependencies
-    if [[ "$ZDS_TEST_JOB" == *"front"* ]] || [[ "$ZDS_TEST_JOB" == *"selenium"* ]]; then
+    if [[ "$ZDS_TEST_JOB" == *"front"* ]] || [[ "$ZDS_TEST_JOB" == *"selenium"* ]] || [[ "$ZDS_TEST_JOB" == *"zds.notification"* ]]; then
       nvm install 8 \
       && nvm use 8 \
       && npm i -g yarn \
@@ -165,6 +166,25 @@ script:
     # test and build frontend
     if [[ "$ZDS_TEST_JOB" == *"doc"* ]]; then
       make --directory doc html
+    fi
+
+  - |
+    # test websocket notifier
+    if [[ "$ZDS_TEST_JOB" == *"zds.notification"* ]]; then
+      python manage.py migrate >/dev/null \
+      && python manage.py loaddata fixtures/*.yaml \
+      && (python manage.py runserver 0.0.0.0:8000 >.server-logs &) \
+      && sleep 3 \
+      && cat .server-logs \
+      && yarn run pm2 start notifier/process.yml \
+      && sleep 5 \
+      && node notifier/test.js
+    fi
+
+  - |
+    # show websocket notifier logs
+    if [[ "$ZDS_TEST_JOB" == *"zds.notification"* ]]; then
+      yarn run pm2 -- logs --nostream --raw --lines 1000
     fi
 
 after_success:

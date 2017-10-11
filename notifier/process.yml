@@ -1,0 +1,4 @@
+apps:
+  - script: notifier/index.js
+    instances: 3
+    max_memory_restart : 100M

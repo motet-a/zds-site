@@ -1,22 +1,22 @@
-# -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
+
+import inspect
 import logging
-
-from django.db.backends.dummy.base import DatabaseError
-
-import zds
-
-from zds.utils.models import Tag
 
 try:
     from functools import wraps
 except ImportError:
     from django.utils.functional import wraps
 
-import inspect
+import django.contrib.auth.signals
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.db.backends.dummy.base import DatabaseError
 from django.db.models.signals import post_save, m2m_changed, pre_delete
 from django.dispatch import receiver
+
+import zds.tutorialv2.signals
+import zds
+from zds.utils.models import Tag
 from zds.forum.models import Topic, Post
 from zds.mp.models import PrivateTopic, PrivatePost
 from zds.notification.models import TopicAnswerSubscription, ContentReactionAnswerSubscription, \
@@ -24,7 +24,8 @@ from zds.notification.models import TopicAnswerSubscription, ContentReactionAnsw
     PingSubscription
 from zds.notification.signals import answer_unread, content_read, new_content, edit_content
 from zds.tutorialv2.models.models_database import PublishableContent, ContentReaction
-import zds.tutorialv2.signals
+from zds.utils import redis
+
 
 logger = logging.getLogger(__name__)
 
@@ -439,3 +440,12 @@ def cleanup_notification_for_unpublished_content(sender, instance, **_):
         logger.debug('Nothing went wrong.')
     except DatabaseError as e:
         logger.exception('Error while saving %s, %s', instance, e)
+
+
+@receiver(django.contrib.auth.signals.user_logged_out, sender=User)
+def user_logged_out(sender, **kwargs):
+    user = kwargs['user']
+    if user:
+        redis.publish('user-logged-out', {
+            'id': user.pk,
+        })
