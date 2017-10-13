@@ -4,11 +4,19 @@ services:
   front:
     build:
       context: .
-      dockerfile: Dockerfile_front
+      dockerfile: Dockerfile_node
     volumes:
       - ./assets:/zds/assets:ro
       - ./Gulpfile.js:/zds/Gulpfile.js:ro
       - dist:/zds/dist
+
+  zmarkdown:
+    build:
+      context: .
+      dockerfile: Dockerfile_node
+    volumes:
+      - ./zmarkdown:/zds/zmarkdown:ro
+    command: ["node", "/zds/zmarkdown/markdown-server.js"]
 
   back:
     build:
@@ -37,6 +45,7 @@ services:
       - "ZDS_ELASTICSEARCH=${ZDS_ELASTICSEARCH}"
     links:
       - elasticsearch
+      - zmarkdown
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.5.2

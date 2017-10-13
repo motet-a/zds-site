@@ -40,3 +40,6 @@ if os.environ.get('ZDS_ELASTICSEARCH'):
             'hosts': ['elasticsearch:9200'],
         }
     }
+
+
+ZDS_APP['zmd']['server'] = 'http://zmarkdown:27272'
