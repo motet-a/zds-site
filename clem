@@ -93,7 +93,6 @@ def fixture():
         'python',
         'manage.py',
         'loaddata',
-        '--settings', 'zds.settings.docker_dev',
     ] + files
 
     return compose(['exec', 'back'] + cmd)
@@ -166,7 +165,6 @@ def es():
         'python',
         'manage.py',
         'es_manager',
-        '--settings', 'zds.settings.docker_dev',
     ] + cli_args.ARG
 
     env = {
