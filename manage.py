@@ -19,7 +19,7 @@ def patch_create_suffix(original):
 
 
 if __name__ == '__main__':
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zds.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zds.settings.dev')
 
     if len(sys.argv) > 1 and sys.argv[1] in ['migrate', 'test']:
 

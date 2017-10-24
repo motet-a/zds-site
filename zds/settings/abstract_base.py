@@ -1,26 +1,27 @@
-# coding: utf-8
-
-import os
-from os.path import join
+from os.path import join, dirname
+from pathlib import Path
+import toml
 
 from django.contrib.messages import constants as message_constants
 from django.utils.http import urlquote
 from django.utils.translation import gettext_lazy as _
 
-from colorlog import ColoredFormatter
+
+try:
+    secrets = toml.load('secrets.toml')
+except IOError:
+    secrets = {}
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-DEBUG = True
+# Build paths inside the project like this: join(BASE_DIR, ...)
+BASE_DIR = str(Path(__file__).parents[2])
 
 INTERNAL_IPS = ('127.0.0.1',)  # debug toolbar
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'base.db'),
+        'NAME': join(BASE_DIR, 'base.db'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -56,7 +57,7 @@ LANGUAGES = (
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: '/home/media/media.lawrence.com/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = join(BASE_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -67,7 +68,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' 'static/' subdirectories and in STATICFILES_DIRS.
 # Example: '/home/media/media.lawrence.com/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = join(BASE_DIR, 'static')
 
 # URL prefix for static files.
 # Example: 'http://media.lawrence.com/static/'
@@ -78,7 +79,7 @@ STATICFILES_DIRS = (
     # Put strings here, like '/home/html/static' or 'C:/www/django/static'.
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, 'dist'),
+    join(BASE_DIR, 'dist'),
 )
 
 # List of finder classes that know how to find static files in
@@ -90,7 +91,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'n!01nl+318#x75_%le8#s0=-*ysw&amp;y49uc#t=*wvi(9hnyii0z'  # noqa
+SECRET_KEY = secrets.get('SECRET_KEY', 'n!01nl+318#x75_%le8#s0=-*ysw&amp;y49uc#t=*wvi(9hnyii0z')
 
 FILE_UPLOAD_HANDLERS = (
     'django.core.files.uploadhandler.MemoryFileUploadHandler',
@@ -117,35 +118,34 @@ ROOT_URLCONF = 'zds.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'zds.wsgi.application'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+default_template_engine = {
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'DIRS': [
+        join(BASE_DIR, 'templates'),
+    ],
+    'OPTIONS': {
+        'context_processors': [
+            # Default context processors
+            'django.contrib.auth.context_processors.auth',
+            'django.template.context_processors.debug',
+            'django.template.context_processors.i18n',
+            'django.template.context_processors.media',
+            'django.template.context_processors.static',
+            'django.template.context_processors.request',
+            'django.template.context_processors.tz',
+            'django.contrib.messages.context_processors.messages',
+            'social.apps.django_app.context_processors.backends',
+            'social.apps.django_app.context_processors.login_redirect',
+            # ZDS context processors
+            'zds.utils.context_processor.app_settings',
+            'zds.utils.context_processor.git_version',
         ],
-        'OPTIONS': {
-            'context_processors': [
-                # Default context processors
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.request',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
-                # ZDS context processors
-                'zds.utils.context_processor.app_settings',
-                'zds.utils.context_processor.git_version',
-            ],
-            'debug': DEBUG,
-        }
     },
-]
-SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+}
+
+TEMPLATES = [default_template_engine]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 INSTALLED_APPS = (
@@ -286,26 +286,7 @@ LOGGING = {
 
     'formatters': {
         'verbose': {
-            '()': ColoredFormatter,
-            'format': '%(log_color)s %(levelname)s %(reset)s %(bold_black)s%(name)s%(reset)s %(message)s',
-            'log_colors': {
-                'DEBUG': 'fg_white,bg_black',
-                'INFO': 'fg_black,bg_bold_white',
-                'WARNING': 'fg_black,bg_bold_yellow',
-                'ERROR': 'fg_bold_white,bg_bold_red',
-                'CRITICAL': 'fg_bold_white,bg_bold_red',
-            },
-        },
-
-        'django.server': {
-            '()': ColoredFormatter,
-            'format': '%(log_color)s%(message)s',
-            'log_colors': {
-                'INFO': 'bold_black',
-                'WARNING': 'bold_yellow',
-                'ERROR': 'bold_red',
-                'CRITICAL': 'bold_red',
-            },
+            'format': '%(levelname)s %(name)s %(message)s',
         },
     },
 
@@ -315,38 +296,24 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
-
-        'django.server': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
-        },
     },
 
     'loggers': {
         'django': {
-            'level': 'INFO',
             'handlers': ['console'],
+            'level': 'WARNING',
         },
 
-        'django.server': {
-            'level': 'INFO',
-            'handlers': ['django.server'],
+        'django.request': {
+            'level': 'ERROR',
+            'handlers': [],
             'propagate': False,
         },
 
         'zds': {
-            'level': 'DEBUG',  # Important because the default level is 'WARNING' or something like that
             'handlers': ['console'],
+            'level': 'WARNING',
         },
-    },
-}
-
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
     }
 }
 
@@ -362,13 +329,17 @@ ABSOLUTE_URL_OVERRIDES = {
 # Django fileserve settings (set to True for local dev version only)
 SERVE = False
 
+# TODO: These .. are ugly.
+tex_template_path = join('..', '..', '..', 'assets', 'tex', 'template.tex')
+
 PANDOC_LOC = ''
-PANDOC_PDF_PARAM = ('--latex-engine=xelatex '
-                    '--template={} -s -S -N '
-                    '--toc -V documentclass=scrbook -V lang=francais '
-                    '-V mainfont=Merriweather -V monofont="SourceCodePro-Regular" '
-                    '-V fontsize=12pt -V geometry:margin=1in '.format(join('..', '..', '..',
-                                                                           'assets', 'tex', 'template.tex')))
+PANDOC_PDF_PARAM = (
+    '--latex-engine=xelatex '
+    '--template={} -s -S -N '
+    '--toc -V documentclass=scrbook -V lang=francais '
+    '-V mainfont=Merriweather -V monofont="SourceCodePro-Regular" '
+    '-V fontsize=12pt -V geometry:margin=1in '.format(tex_template_path)
+)
 # LOG PATH FOR PANDOC LOGGING
 PANDOC_LOG = './pandoc.log'
 PANDOC_LOG_STATE = False
@@ -387,7 +358,7 @@ ES_SEARCH_INDEX = {
     'replicas': 0,
 }
 
-GEOIP_PATH = os.path.join(BASE_DIR, 'geodata')
+GEOIP_PATH = join(BASE_DIR, 'geodata')
 
 # Fake mails (in console)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -403,7 +374,7 @@ MESSAGE_TAGS = {
 SDZ_TUTO_DIR = ''
 
 LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'conf/locale/'),
+    join(BASE_DIR, 'conf/locale/'),
 )
 
 # best quality, 100 is the same but documentation says
@@ -420,8 +391,7 @@ ZDS_APP = {
         'literal_name': 'Zeste de Savoir',
         'slogan': 'Zeste de Savoir, la connaissance pour tous et sans pépins',
         'abbr': 'zds',
-        'url': 'http://127.0.0.1:8000',
-        'secure_url': 'https://127.0.0.1:8000',
+        'url': 'https://zestedesavoir.com',
         'dns': 'zestedesavoir.com',
         'email_contact': 'zestedesavoir@gmail.com',
         'email_noreply': 'noreply@zestedesavoir.com',
@@ -521,13 +491,13 @@ ZDS_APP = {
         'home_number': 5
     },
     'content': {
-        'repo_private_path': os.path.join(BASE_DIR, 'contents-private'),
-        'repo_public_path': os.path.join(BASE_DIR, 'contents-public'),
+        'repo_private_path': join(BASE_DIR, 'contents-private'),
+        'repo_public_path': join(BASE_DIR, 'contents-public'),
         'extra_contents_dirname': 'extra_contents',
         # can also be 'extra_content_generation_policy': 'WATCHDOG'
         # or 'extra_content_generation_policy': 'NOTHING'
         'extra_content_generation_policy': 'SYNC',
-        'extra_content_watchdog_dir': os.path.join(BASE_DIR, 'watchdog-build'),
+        'extra_content_watchdog_dir': join(BASE_DIR, 'watchdog-build'),
         'max_tree_depth': 3,
         'default_licence_pk': 7,
         'content_per_page': 42,
@@ -539,7 +509,7 @@ ZDS_APP = {
         'commits_per_page': 20,
         'feed_length': 5,
         'user_page_number': 5,
-        'default_image': os.path.join(BASE_DIR, 'fixtures', 'noir_black.png'),
+        'default_image': join(BASE_DIR, 'fixtures', 'noir_black.png'),
         'import_image_prefix': 'archive',
         'build_pdf_when_published': True,
         'maximum_slug_size': 150,
@@ -628,6 +598,9 @@ LOGIN_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = ('social.backends.facebook.FacebookOAuth2',
                            'social.backends.google.GoogleOAuth2',
                            'django.contrib.auth.backends.ModelBackend')
+
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_USE_DEPRECATED_API = True
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
@@ -645,18 +618,24 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # redefine for real key and secret code
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '696570367703-r6hc7mdd27t1sktdkivpnc5b25i0uip2.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'mApWNh3stCsYHwsGuWdbZWP8'  # noqa
+SOCIAL_AUTH_FACEBOOK_KEY = secrets.get('SOCIAL_AUTH_FACEBOOK_KEY', '')
+SOCIAL_AUTH_FACEBOOK_SECRET = secrets.get('SOCIAL_AUTH_FACEBOOK_SECRET', '')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets.get(
+    'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY',
+    '696570367703-r6hc7mdd27t1sktdkivpnc5b25i0uip2.apps.googleusercontent.com',
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets.get(
+    'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET',
+    'mApWNh3stCsYHwsGuWdbZWP8',
+)
 
 # ReCaptcha stuff
 USE_CAPTCHA = False
 NOCAPTCHA = True  # Use the 'No Captcha engine'
 RECAPTCHA_USE_SSL = True
 # keys (should be overridden in the settings_prod.py file)
-RECAPTCHA_PUBLIC_KEY = 'dummy'  # noqa
-RECAPTCHA_PRIVATE_KEY = 'dummy'  # noqa
+RECAPTCHA_PUBLIC_KEY = secrets.get('RECAPTCHA_PUBLIC_KEY', 'dummy')
+RECAPTCHA_PRIVATE_KEY = secrets.get('RECAPTCHA_PRIVATE_KEY', 'dummy')
 
 # Anonymous [Dis]Likes. Authors of [dis]likes before those pk will never be shown
 VOTES_ID_LIMIT = 0
@@ -671,16 +650,3 @@ OAUTH2_PROVIDER = {
 
 # Properly handle HTTPS vs HTTP
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Load the production settings, overwrite the existing ones if needed
-try:
-    from .settings_prod import *  # noqa
-except ImportError:
-    pass
-
-# MUST BE after settings_prod import
-if DEBUG:
-    INSTALLED_APPS += (
-        'debug_toolbar',
-    )
-    MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE_CLASSES
