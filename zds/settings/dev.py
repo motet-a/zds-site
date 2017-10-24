@@ -76,4 +76,10 @@ LOGGING = {
     },
 }
 
+class AnyIPAddress(list):
+    def __contains__(self, _ip):
+        return True
+
+INTERNAL_IPS = AnyIPAddress()
+
 ZDS_APP['site']['url'] = 'http://127.0.0.1:8000'

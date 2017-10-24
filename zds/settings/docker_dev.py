@@ -1,7 +1,7 @@
 import os
 from os.path import join
 
-from .abstract_base import *
+from .dev import *
 
 allowed_hosts_string = os.environ.get('ZDS_ALLOWED_HOSTS')
 if allowed_hosts_string:
