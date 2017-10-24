@@ -1,9 +1,7 @@
-# coding: utf-8
-
 import os
 from os.path import join
 
-from zds.settings import *
+from .abstract_base import *
 
 allowed_hosts_string = os.environ.get('ZDS_ALLOWED_HOSTS')
 if allowed_hosts_string:
