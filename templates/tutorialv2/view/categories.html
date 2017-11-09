@@ -11,14 +11,14 @@
         - 1 column with 6 most commented contents
         - self investment block
 
-    <section>
-        <h2 itemprop="name">{%  trans  'À la une' %}</h2>
-        <div class="featured-resource-row">
-            {% for featured_content in featured_contents %}
-                {% include "featured/includes/featured_resource_item.part.html" with featured_resource=featured_content %}
-            {% endfor %}
-        </div>
-    </section>
+        <section>
+            <h2 itemprop="name">{%  trans  'À la une' %}</h2>
+            <div class="featured-resource-row">
+                {% for featured_content in featured_contents %}
+                    {% include "featured/includes/featured_resource_item.part.html" with featured_resource=featured_content %}
+                {% endfor %}
+            </div>
+        </section>
     {% endcomment %}
 
     <section>
@@ -31,7 +31,7 @@
     <div class="flexpage-column">
         <section>
             <h2 itemprop="name">
-              {% trans 'Derniers tutoriels' %}
+                {% trans 'Derniers tutoriels' %}
                 <a href="{% url "tutorial:feed-rss" %}" class="btn btn-grey">RSS</a>
                 <a href="{% url "tutorial:feed-atom" %}" class="btn btn-grey">Atom</a>
             </h2>

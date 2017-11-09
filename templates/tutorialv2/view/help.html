@@ -78,9 +78,12 @@
                                 {% if author == user %}
                                     {% trans "vous" %}
                                 {% else %}
-                                    <strong><a href="{{ author.get_absolute_url }}" title="{% trans 'Profil de' %} {{ author.username }}">
-                                    {{ author.username }}
-                                    </a></strong>
+                                    <strong>
+                                        <a href="{{ author.get_absolute_url }}"
+                                           title="{% trans 'Profil de' %} {{ author.username }}">
+                                            {{ author.username }}
+                                        </a>
+                                    </strong>
                                 {% endif %}
                             {% endfor %}
                             {% if not user in content.authors.all %}
@@ -100,32 +103,44 @@
                         </p>
                     </div>
 
-                    <div class="tutorial-help">{% if content.in_public %}
-                            <a title="{% blocktrans %}Lire la version en ligne{% endblocktrans %}" href="{{ content.get_absolute_url_online }}">
-                                <img src="{% static "images/tutorials.png" %}" alt="{% blocktrans %}En ligne{% endblocktrans %}" />
+                    <div class="tutorial-help">
+                        {% if content.in_public %}
+                            <a title="{% blocktrans %}Lire la version en ligne{% endblocktrans %}"
+                               href="{{ content.get_absolute_url_online }}">
+                                <img src="{% static "images/tutorials.png" %}" alt
+                                     ="{% blocktrans %}En ligne{% endblocktrans %}" />
                             </a>
                         {% else %}
-                            <img src="{% static "images/tutorials.png" %}" alt="{% blocktrans %}Hors-ligne{% endblocktrans %}"
-                            title="{% if content.is_article %} {% trans "Article" %}{% else %}{% trans "Tutoriel" %}{% endif %}{% trans " jamais publié" %}" class="light" />
+                            <img src="{% static "images/tutorials.png" %}"
+                                 alt="{% blocktrans %}Hors-ligne{% endblocktrans %}"
+                                 title="{% if content.is_article %} {% trans "Article" %}{% else %}{% trans "Tutoriel" %}{% endif %}{% trans " jamais publié" %}"
+                                 class="light" />
                         {% endif %}
 
                         {% if content.in_beta %}
-                            <a title="{% blocktrans %}Lire la version bêta{% endblocktrans %}" href="{{ content.get_absolute_url_beta }}">
-                                <img src="{% static "images/beta.png" %}" alt="{% blocktrans %}Bêta Active{% endblocktrans %}" />
+                            <a title="{% blocktrans %}Lire la version bêta{% endblocktrans %}"
+                               href="{{ content.get_absolute_url_beta }}">
+                                <img src="{% static "images/beta.png" %}"
+                                     alt="{% blocktrans %}Bêta Active{% endblocktrans %}" />
                             </a>
                         {% else %}
-                            <img src="{% static "images/beta.png" %}" alt="{% blocktrans %}Bêta Inactive{% endblocktrans %}"
-                            title="{% blocktrans %}Bêta non activée{% endblocktrans %}" class="light" />
+                            <img src="{% static "images/beta.png" %}"
+                                 alt="{% blocktrans %}Bêta Inactive{% endblocktrans %}"
+                                 title="{% blocktrans %}Bêta non activée{% endblocktrans %}"
+                                 class="light" />
                         {% endif %}
 
                         {% for help in helps %}
                             <span>
                                 {% if help in content.helps.all %}
-                                    <img src="{{ help.image.help_illu.url }}" alt="{{help.title}}"
-                                    title="{% blocktrans %}Cherche un {% endblocktrans %}{{help.title}}" />
+                                    <img src="{{ help.image.help_illu.url }}"
+                                         alt="{{help.title}}"
+                                         title="{% blocktrans %}Cherche un {% endblocktrans %}{{help.title}}" />
                                 {% else %}
-                                    <img src="{{ help.image.help_illu.url }}" alt="{{help.title}}"
-                                    title="{% blocktrans %}Ne cherche aucun {% endblocktrans %}{{help.title}}" class="light" />
+                                    <img src="{{ help.image.help_illu.url }}"
+                                         alt="{{help.title}}"
+                                         title="{% blocktrans %}Ne cherche aucun {% endblocktrans %}{{help.title}}"
+                                         class="light" />
                                 {% endif %}
                             </span>
                         {% endfor %}

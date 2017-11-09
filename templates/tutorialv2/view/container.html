@@ -106,7 +106,7 @@
         </p>
     {% endif %}
 
-     {% if container.has_extracts %}
+    {% if container.has_extracts %}
         <ul>
             {% for extract in container.children %}
                 <li>
@@ -152,24 +152,23 @@
                 {% trans "Éditer" %}
             </a>
 
-
-            {%  if container.can_add_container %}
+            {% if container.can_add_container %}
                 <a href="{% url "content:create-container" content.pk content.slug container.slug %}" class="ico-after more blue new-btn">
                     {% trans "Ajouter " %} {{ "un"|feminize:container.get_next_level_as_string }} {{ container.get_next_level_as_string|lower }}
                 </a>
             {% endif %}
 
-            {%  if container.can_add_extract %}
+            {% if container.can_add_extract %}
                 <a href="
-                    {%  if container.parent == content %}
+                    {% if container.parent == content %}
                         {% url "content:create-extract" content.pk content.slug container.slug %}
-                    {%  else %}
+                    {% else %}
                         {% url "content:create-extract" content.pk content.slug container.parent.slug container.slug %}
-                    {%  endif %}
+                    {% endif %}
                  " class="ico-after more blue new-btn">
                     {% trans "Ajouter une section" %}
                 </a>
-            {%  endif %}
+            {% endif %}
         {% else %}
             <a href="{{ object.get_absolute_url }}" class="ico-after arrow-right blue new-btn">
                 {% trans "Version brouillon" %}
@@ -209,21 +208,28 @@
                                 {% trans "Descendre" %}
                             </option>
                         {% endif %}
-                            <option disabled="disabled">&mdash; {% trans "Déplacer avant" %}</option>
-                            {% for element in containers_target %}
-                                    <option value="before:{{element.0}}"
+
+                        <option disabled="disabled">
+                            &mdash; {% trans "Déplacer avant" %}
+                        </option>
+
+                        {% for element in containers_target %}
+                            <option value="before:{{element.0}}"
                                     {% if not element.3 %} disabled {% endif %}>
-                                         &mdash;&mdash;{% for _ in element.2|times %}&mdash;{% endfor %}{{ element.1 }}
-                                    </option>
-                            {% endfor %}
-                            <option disabled="disabled">&mdash; {% trans "Déplacer après" %}</option>
-                            {% for element in containers_target %}
-                                    <option value="after:{{element.0}}"
+                                &mdash;&mdash;{% for _ in element.2|times %}&mdash;{% endfor %}{{ element.1 }}
+                            </option>
+                        {% endfor %}
+
+                        <option disabled="disabled">&mdash; {% trans "Déplacer après" %}</option>
+
+                        {% for element in containers_target %}
+                            <option value="after:{{element.0}}"
                                     {% if not element.3 %} disabled {% endif %}>
-                                         &mdash;&mdash;{% for _ in element.2|times %}&mdash;{% endfor %}{{ element.1 }}
-                                    </option>
-                            {% endfor %}
+                                &mdash;&mdash;{% for _ in element.2|times %}&mdash;{% endfor %}{{ element.1 }}
+                            </option>
+                        {% endfor %}
                     </select>
+
                     {% if container.get_tree_depth > 2 %}
                         <input type="hidden" name="first_level_slug" value="{{ parent.parent.slug }}">
                     {% else %}
@@ -247,7 +253,7 @@
 
     {% if can_edit or is_staff %}
         {% if not version or content.sha_draft == version %}
-             <div class="mobile-menu-bloc mobile-all-links mobile-show-ico" data-title="Suppression">
+            <div class="mobile-menu-bloc mobile-all-links mobile-show-ico" data-title="Suppression">
                 <h3>{% trans "Suppression" %}</h3>
                 <ul>
                     <li>
