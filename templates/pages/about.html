@@ -47,8 +47,8 @@
                         {% blocktrans with author_logo=app.site.licenses.logo.author url_license=app.site.licenses.logo.url_license url_image=app.site.licenses.logo.url_image logo_title=app.site.licenses.logo.title logo_desc=app.site.licenses.logo.description %}
                             Le logo de {{ site_name }} a été créé par {{ author_logo }} et est sous
                             <a rel="license" href="{{ url_license }}">
-                            <img alt="{{ logo_title }}" src="{{ url_image }}">
-                            {{ logo_desc }}
+                                <img alt="{{ logo_title }}" src="{{ url_image }}">
+                                {{ logo_desc }}
                             </a>
                         {% endblocktrans %}
                         <img alt="{% blocktrans %}Logo de {{ site_name }}{% endblocktrans %}" src="{% static 'images/logo-background.png' %}">
